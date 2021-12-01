@@ -77,4 +77,11 @@ You can declare an array as public, and Solidity will automatically create a get
 Person[] public people;
 ```
 Other contracts would then be able to read from, but not write to, this array. So this is a useful pattern for storing public data in your contract.
+### Function Declarations
+A function declaration in solidity looks like the following:
+```
+function eatHamburgers(string memory _name, uint _amount) public {
 
+}
+```
+This is a function named eatHamburgers that takes 2 parameters: a string and a uint. Note that we're specifying the function visibility as public. We're also providing instructions about where the _name variable should be stored- in **memory**. This is required for all reference types such as arrays, structs, mappings, and strings.
