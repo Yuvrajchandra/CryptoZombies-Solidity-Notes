@@ -18,3 +18,8 @@ contract HelloWorld {
 
 }
 ```
+### Version Pragma
+All solidity source code should start with a "version pragma" — a declaration of the version of the Solidity compiler this code should use. This is to prevent issues with future compiler versions potentially introducing changes that would break your code.
+```
+pragma solidity >=0.5.0 <0.6.0;
+````
