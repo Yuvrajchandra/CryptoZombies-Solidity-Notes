@@ -37,12 +37,12 @@ The uint data type is an unsigned integer, meaning its value must be non-negativ
 In Solidity, uint is actually an alias for uint256, a 256-bit unsigned integer. You can declare uints with less bits — uint8, uint16, uint32, etc.. But in general you want to simply use uint except in specific cases, which we'll talk about in later lessons.
 ### Math Operations
 Math in Solidity is pretty straightforward. The following operations are the same as in most programming languages:
-
-Addition: x + y
-Subtraction: x - y,
-Multiplication: x * y
-Division: x / y
-Modulus / remainder: x % y
+  
+Addition: x + y  
+Subtraction: x - y,  
+Multiplication: x * y  
+Division: x / y  
+Modulus / remainder: x % y  
 ### Structs
 Structs allow you to create more complicated data types that have multiple properties.
 ```
