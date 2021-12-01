@@ -92,3 +92,26 @@ Well, there are two ways in which you can pass an argument to a Solidity functio
 - **By value**, which means that the Solidity compiler creates a new copy of the parameter's value and passes it to your function. This allows your function to modify the value without worrying that the value of the initial parameter gets changed.
 - **By reference**, which means that your function is called with a... reference to the original variable. Thus, if your function changes the value of the variable it receives, the value of the original variable gets changed.
 > It's convention (but not required) to start function parameter variable names with an underscore (_) in order to differentiate them from global variables.
+### Working With Structs and Arrays
+#### Creating New Structs
+```
+struct Person {
+  uint age;
+  string name;
+}
+
+Person[] public people;
+```
+Here we are creating a new struct(Person) and defining an array of struct(people).
+#### How to create an object of struct and how to push the object to the array
+```
+// create a New Person:
+Person satoshi = Person(172, "Satoshi");
+
+// Add that person to the Array:
+people.push(satoshi);
+```
+In one line of code:
+```
+people.push(Person(172, "Satoshi"));
+```
