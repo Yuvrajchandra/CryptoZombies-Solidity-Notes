@@ -115,3 +115,51 @@ In one line of code:
 ```
 people.push(Person(172, "Satoshi"));
 ```
+### array.push() Method
+ array.push() adds something to the end of the array, so the elements are in the order we added them.
+ ```
+ uint[] numbers;
+numbers.push(5);
+numbers.push(10);
+numbers.push(15);
+// numbers is now equal to [5, 10, 15]
+```
+### Private / Public Functions
+In Solidity, functions are public by default. This means anyone (or any other contract) can call your contract's function and execute its code.  
+
+Obviously this isn't always desirable, and can make your contract vulnerable to attacks. Thus it's good practice to mark your functions as private by default, and then only make public the functions you want to expose to the world.
+
+#### How to declare a private function
+```
+uint[] numbers;
+
+function _addToArray(uint _number) private {
+  numbers.push(_number);
+}
+```
+This means only other functions within our contract will be able to call this function and add to the numbers array.
+### Return Values in a function
+To return a value from a function, the declaration looks like this:
+```
+string greeting = "What's up dog";
+
+function sayHello() public returns (string memory) {
+  return greeting;
+}
+```
+In Solidity, the function declaration contains the type of the return value (in this case string).
+### Function modifiers: view
+View functions ensure that they will not modify the state. The view functions are read-only function.
+```
+function sayHello() public view returns (string memory) {
+  return greeting;
+}
+```
+### Function modifiers: pure
+The pure functions do not read or modify the state variables, which returns the values only using the parameters passed to the function or local variables present in it.
+```
+function _multiply(uint a, uint b) private pure returns (uint) {
+  return a * b;
+}
+```
+> It may be hard to remember when to mark functions as pure/view. Luckily the Solidity compiler is good about issuing warnings to let you know when you should use one of these modifiers.
