@@ -285,4 +285,9 @@ Storage refers to variables stored permanently on the blockchain. Memory variabl
 Most of the time you don't need to use these keywords because Solidity handles them by default. State variables (variables declared outside of functions) are by default storage and written permanently to the blockchain, while variables declared inside functions are memory and will disappear when the function call ends.  
 
 However, there are times when you do need to use these keywords, namely when dealing with structs and arrays within functions.
+### Internal and External
+In addition to public and private, Solidity has two more types of visibility for functions: internal and external.  
 
+**internal** is the same as **private**, except that it's also accessible to contracts that inherit from this contract. 
+
+**external** is similar to **public**, except that these functions can ONLY be called outside the contract — they can't be called by other functions inside that contract. 
