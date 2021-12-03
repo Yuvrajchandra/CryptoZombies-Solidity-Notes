@@ -8,6 +8,43 @@ CryptoZombies is a free, open source, interactive code school that teaches you t
   
 Link to the course: https://cryptozombies.io/en/course/
 
+# Table of Contents
+- [Quick Notes from the course:](#quick-notes-from-the-course-)
+  * [Contracts](#contracts)
+  * [Version Pragma](#version-pragma)
+  * [State Variables](#state-variables)
+  * [Unsigned Integers: uint](#unsigned-integers--uint)
+  * [Math Operations](#math-operations)
+  * [Structs](#structs)
+  * [Strings](#strings)
+  * [Arrays](#arrays)
+  * [Public Arrays](#public-arrays)
+  * [Function Declarations](#function-declarations)
+    + [What is a reference type you ask?](#what-is-a-reference-type-you-ask-)
+  * [Working With Structs and Arrays](#working-with-structs-and-arrays)
+    + [Creating New Structs](#creating-new-structs)
+    + [How to create an object of struct and how to push the object to the array](#how-to-create-an-object-of-struct-and-how-to-push-the-object-to-the-array)
+  * [array.push() Method](#arraypush---method)
+  * [Private / Public Functions](#private---public-functions)
+    + [How to declare a private function](#how-to-declare-a-private-function)
+  * [Return Values in a function](#return-values-in-a-function)
+  * [Function modifiers: view](#function-modifiers--view)
+  * [Function modifiers: pure](#function-modifiers--pure)
+  * [Keccak256](#keccak256)
+  * [Typecasting](#typecasting)
+  * [Events](#events)
+  * [Address Data Type](#address-data-type)
+  * [Mapping Data Type](#mapping-data-type)
+  * [msg.sender](#msgsender)
+  * [require](#require)
+  * [Inheritance](#inheritance)
+  * [Import](#import)
+  * [Storage vs Memory (Data location)](#storage-vs-memory--data-location-)
+  * [Internal and External](#internal-and-external)
+  * [Interacting with other contracts](#interacting-with-other-contracts)
+  * [Handling Multiple Return Values](#handling-multiple-return-values)
+  * [If statements](#if-statements)
+
 ## Quick Notes from the course:
 
 ### Contracts
