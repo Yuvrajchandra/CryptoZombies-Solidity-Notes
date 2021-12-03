@@ -240,3 +240,16 @@ function whatIsMyNumber() public view returns (uint) {
   return favoriteNumber[msg.sender];
 }
 ```
+### require
+Thus require is quite useful for verifying certain conditions that must be true before running a function. The function will throw an error and stop executing if some condition is not true:
+```
+function sayHiToVitalik(string memory _name) public returns (string memory) {
+  // Compares if _name equals "Vitalik". Throws an error and exits if not true.
+  // (Side note: Solidity doesn't have native string comparison, so we
+  // compare their keccak256 hashes to see if the strings are equal)
+  require(keccak256(abi.encodePacked(_name)) == keccak256(abi.encodePacked("Vitalik")));
+  // If it's true, proceed with the function:
+  return "Hi!";
+}
+```
+If you call this function with sayHiToVitalik("Vitalik"), it will return "Hi!". If you call it with any other input, it will throw an error and not execute.
