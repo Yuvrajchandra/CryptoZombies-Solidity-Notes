@@ -268,3 +268,12 @@ contract BabyDoge is Doge {
 }
 ```
 BabyDoge inherits from Doge. That means if you compile and deploy BabyDoge, it will have access to both catchphrase() and anotherCatchphrase() (and any other public functions we may define on Doge).
+### Import
+When you have multiple files and you want to import one file into another, Solidity uses the **import** keyword:
+```
+import "./someothercontract.sol";
+
+contract newContract is SomeOtherContract {
+
+}
+```
