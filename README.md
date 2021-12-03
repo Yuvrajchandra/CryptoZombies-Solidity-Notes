@@ -212,4 +212,12 @@ Each account has an **address**, which you can think of like a bank account numb
 ```
 0x0cE446255506E92DF41614C46F1d6df9Cc969183
 ```
-
+### Mapping Data Type
+Defining a mapping looks like this:
+```
+// For a financial app, storing a uint that holds the user's account balance:
+mapping (address => uint) public accountBalance;
+// Or could be used to store / lookup usernames based on userId
+mapping (uint => string) userIdToName;
+```
+A mapping is essentially a key-value store for storing and looking up data. In the first example, the key is an address and the value is a uint, and in the second example the key is a uint and the value a string.
