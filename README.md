@@ -363,3 +363,14 @@ function getLastReturnValue() external {
   (,,c) = multipleReturns();
 }
 ```
+### If statements
+If statements in Solidity look just like javascript:
+```
+function eatBLT(string memory sandwich) public {
+  // Remember with strings, we have to compare their keccak256 hashes
+  // to check equality
+  if (keccak256(abi.encodePacked(sandwich)) == keccak256(abi.encodePacked("BLT"))) {
+    eat();
+  }
+}
+```
