@@ -221,3 +221,22 @@ mapping (address => uint) public accountBalance;
 mapping (uint => string) userIdToName;
 ```
 A mapping is essentially a key-value store for storing and looking up data. In the first example, the key is an address and the value is a uint, and in the second example the key is a uint and the value a string.
+### msg.sender
+In Solidity, there are certain global variables that are available to all functions. One of these is msg.sender, which refers to the address of the person (or smart contract) who called the current function.
+> In Solidity, function execution always needs to start with an external caller. A contract will just sit on the blockchain doing nothing until someone calls one of its functions. So there will always be a msg.sender.
+Here's an example of using msg.sender and updating a mapping:
+```
+mapping (address => uint) favoriteNumber;
+
+function setMyNumber(uint _myNumber) public {
+  // Update our `favoriteNumber` mapping to store `_myNumber` under `msg.sender`
+  favoriteNumber[msg.sender] = _myNumber;
+  // ^ The syntax for storing data in a mapping is just like with arrays
+}
+
+function whatIsMyNumber() public view returns (uint) {
+  // Retrieve the value stored in the sender's address
+  // Will be `0` if the sender hasn't called `setMyNumber` yet
+  return favoriteNumber[msg.sender];
+}
+```
