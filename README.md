@@ -617,3 +617,13 @@ function fiveMinutesHavePassed() public view returns (bool) {
   return (now >= (lastUpdated + 5 minutes));
 }
 ```
+### Passing structs as arguments
+You can pass a storage pointer to a struct as an argument to a private or internal function. This is useful, for example, for passing around our Zombie structs between functions.
+
+The syntax looks like this:
+```
+function _doStuff(Zombie storage _zombie) internal {
+  // do stuff with _zombie
+}
+```
+This way we can pass a reference to our zombie into a function instead of passing in a zombie ID and looking it up.
