@@ -216,7 +216,7 @@ function _multiply(uint a, uint b) private pure returns (uint) {
 ### Keccak256
 Ethereum has the hash function keccak256 built in, which is a version of SHA3. A hash function basically maps an input into a random 256-bit hexadecimal number. A slight change in the input will cause a large change in the hash. It's useful for many purposes in Ethereum.
 
-** keccak256** expects a single parameter of type **bytes**. This means that we have to "pack" any parameters before calling **keccak256**:
+**keccak256** expects a single parameter of type **bytes**. This means that we have to "pack" any parameters before calling **keccak256**:
 ```
 //6e91ec6b618bb462a4a6ee5aa2cb0e9cf30f7a052bb467b0ba58b8748c00d2e5
 keccak256(abi.encodePacked("aaaab"));
