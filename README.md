@@ -857,4 +857,55 @@ SafeMath's add, sub, mul, and div are functions that do the basic 4 math operati
 Libraries are similar to Contracts but are mainly intended for reuse. A Library contains functions which other contracts can call. 
 ### assert vs require
 assert is similar to require, where it will throw an error if false. The difference between assert and require is that require will refund the user the rest of their gas when a function fails, whereas assert will not. So most of the time you want to use require in your code; assert is typically used when something has gone horribly wrong with the code (like a uint overflow).
+### Comments 
+Commenting in Solidity is just like JavaScript. 
+#### Single-Line Comments
+```
+// This is a single-line comment. It's kind of like a note to self (or to others)
+```
+#### Multi-Line Comments
+```
+contract CryptoZombies {
+  /* This is a multi-lined comment. I'd like to thank all of you
+    who have taken your time to try this programming course.
+    I know it's free to all of you, and it will stay free
+    forever, but we still put our heart and soul into making
+    this as good as it can be.
 
+    Know that this is still the beginning of Blockchain development.
+    We've come very far but there are so many ways to make this
+    community better. If we made a mistake somewhere, you can
+    help us out and open a pull request here:
+    https://github.com/loomnetwork/cryptozombie-lessons
+
+    Or if you have some ideas, comments, or just want to say
+    hi - drop by our Telegram community at https://t.me/loomnetworkdev
+  */
+}
+```
+### natspec standard
+```
+/// @title A contract for basic math operations
+/// @author H4XF13LD MORRIS 💯💯😎💯💯
+/// @notice For now, this contract just adds a multiply function
+contract Math {
+  /// @notice Multiplies 2 numbers together
+  /// @param x the first uint.
+  /// @param y the second uint.
+  /// @return z the product of (x * y)
+  /// @dev This function does not currently check for overflows
+  function multiply(uint x, uint y) returns (uint z) {
+    // This is just a normal comment, and won't get picked up by natspec
+    z = x * y;
+  }
+}
+```
+@title and @author are straightforward.
+
+@notice explains to a user what the contract / function does. 
+
+@dev is for explaining extra details to developers.
+
+@param and @return are for describing what each parameter and return value of a function are for.
+
+Note that you don't always have to use all of these tags for every function — all tags are optional. But at the very least, leave a @dev note explaining what each function does.
