@@ -774,3 +774,87 @@ msg.sender.transfer(msg.value - itemFee);
 ```
 ### So how do we generate random numbers safely in Ethereum?
 You can read this [StackOverflow thread](https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract) for some ideas. One idea would be to use an oracle to access a random number function from outside of the Ethereum blockchain.
+### Tokens on Ethereum
+A token on Ethereum is basically just a smart contract that follows some common rules — namely it implements a standard set of functions that all other token contracts share, such as transferFrom(address _from, address _to, uint256 _tokenId) and balanceOf(address _owner).  
+
+Internally the smart contract usually has a mapping, mapping(address => uint256) balances, that keeps track of how much balance each address has.
+
+So basically a token is just a contract that keeps track of who owns how much of that token, and some functions so those users can transfer their tokens to other addresses.
+#### Why does it matter?
+Since all ERC20 tokens share the same set of functions with the same names, they can all be interacted with in the same ways.
+
+This means if you build an application that is capable of interacting with one ERC20 token, it's also capable of interacting with any ERC20 token. That way more tokens can easily be added to your app in the future without needing to be custom coded. You could simply plug in the new token contract address, and boom, your app has another token it can use.
+
+One example of this would be an exchange. When an exchange adds a new ERC20 token, really it just needs to add another smart contract it talks to. Users can tell that contract to send tokens to the exchange's wallet address, and the exchange can tell the contract to send the tokens back out to users when they request a withdraw.
+
+The exchange only needs to implement this transfer logic once, then when it wants to add a new ERC20 token, it's simply a matter of adding the new contract address to its database.
+### ERC721 tokens
+ERC721 tokens are not interchangeable since each one is assumed to be unique, and are not divisible. You can only trade them in whole units, and each one has a unique ID. 
+### ERC721 Standard
+```
+contract ERC721 {
+  event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+  event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+
+  function balanceOf(address _owner) external view returns (uint256);
+  function ownerOf(uint256 _tokenId) external view returns (address);
+  function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+  function approve(address _approved, uint256 _tokenId) external payable;
+}
+```
+### Multiple Inheritance
+In Solidity, your contract can inherit from multiple contracts as follows:
+```
+contract SatoshiNakamoto is NickSzabo, HalFinney {
+  // Omg, the secrets of the universe revealed!
+}
+```
+As you can see, when using multiple inheritance, you just separate the multiple contracts you're inheriting from with a comma, ,. 
+### ERC721: Transfer Logic
+The ERC721 spec has 2 different ways to transfer tokens:
+```
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+```
+and
+```
+function approve(address _approved, uint256 _tokenId) external payable;
+
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+```
+1. The first way is the token's owner calls transferFrom with his address as the _from parameter, the address he wants to transfer to as the _to parameter, and the _tokenId of the token he wants to transfer.
+
+2. The second way is the token's owner first calls approve with the address he wants to transfer to, and the _tokenID . The contract then stores who is approved to take a token, usually in a mapping (uint256 => address). Then, when the owner or the approved address calls transferFrom, the contract checks if that msg.sender is the owner or is approved by the owner to take the token, and if so it transfers the token to him.  
+
+Notice that both methods contain the same transfer logic. In one case the sender of the token calls the transferFrom function; in the other the owner or the approved receiver of the token calls it.
+### Contract security enhancements: Overflows and Underflows
+What's an **overflow**?
+
+Let's say we have a uint8, which can only have 8 bits. That means the largest number we can store is binary 11111111 (or in decimal, 2^8 - 1 = 255).
+
+Take a look at the following code. What is number equal to at the end?
+```
+uint8 number = 255;
+number++;
+```
+In this case, we've caused it to **overflow** — so number is counterintuitively now equal to 0 even though we increased it. (If you add 1 to binary 11111111, it resets back to 00000000, like a clock going from 23:59 to 00:00).
+
+An **underflow** is similar, where if you subtract 1 from a uint8 that equals 0, it will now equal 255 (because uints are unsigned, and cannot be negative).
+
+While we're not using uint8 here, and it seems unlikely that a uint256 will overflow when incrementing by 1 each time (2^256 is a really big number), it's still good to put protections in our contract so that our DApp never has unexpected behavior in the future.
+#### Using SafeMath
+To prevent overflow and underflow, OpenZeppelin has created a library called SafeMath that prevents these issues by default. One of the things it is useful for is to attach functions to native data types.
+
+For example, with the SafeMath library, we'll use the syntax using SafeMath for uint256. The SafeMath library has 4 functions — add, sub, mul, and div. And now we can access these functions from uint256 as follows:
+```
+using SafeMath for uint256;
+
+uint256 a = 5;
+uint256 b = a.add(3); // 5 + 3 = 8
+uint256 c = a.mul(2); // 5 * 2 = 10
+```
+SafeMath's add, sub, mul, and div are functions that do the basic 4 math operations, but throw an error if an overflow or underflow occurs.
+### Library
+Libraries are similar to Contracts but are mainly intended for reuse. A Library contains functions which other contracts can call. 
+### assert vs require
+assert is similar to require, where it will throw an error if false. The difference between assert and require is that require will refund the user the rest of their gas when a function fails, whereas assert will not. So most of the time you want to use require in your code; assert is typically used when something has gone horribly wrong with the code (like a uint overflow).
+
