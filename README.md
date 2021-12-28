@@ -714,3 +714,63 @@ function getEvens() pure external returns(uint[] memory) {
 }
 ```
 This function will return an array with the contents [2, 4, 6, 8, 10].
+### Visibility Modifiers
+Visibility modifiers controls when and where the function can be called from.  
+
+**Private:** Private means it's only callable from other functions inside the contract.  
+**Internal:** Internal is like private but can also be called by contracts that inherit from this one.  
+**External:** External can only be called outside the contract.  
+**Public:** Public can be called anywhere, both internally and externally.  
+### State Modifiers
+State Modifiers tells us how the function interacts with the BlockChain. 
+
+**View:** View tells us that by running the function, no data will be saved/changed. They are read-only functions.  
+**Pure:** Pure tells us that not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain.  
+Both of these don't cost any gas to call if they're called externally from outside the contract (but they do cost gas if called internally by another function).
+### Custom Modifiers
+For these we can define custom logic to determine how they affect a function. Ex- onlyOwner.  
+### The payable Modifier
+payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether.  
+
+In Ethereum, because both the money (Ether), the data (transaction payload), and the contract code itself all live on Ethereum, it's possible for you to call a function and pay money to the contract at the same time.
+```
+contract OnlineStore {
+  function buySomething() external payable {
+    // Check to make sure 0.001 ether was sent to the function call:
+    require(msg.value == 0.001 ether);
+    // If so, some logic to transfer the digital item to the caller of the function:
+    transferThing(msg.sender);
+  }
+}
+```
+Here, **msg.value** is a way to see how much Ether was sent to the contract, and **ether** is a built-in unit.
+
+What happens here is that someone would call the function from web3.js (from the DApp's JavaScript front-end) as follows:
+```
+// Assuming `OnlineStore` points to your contract on Ethereum:
+OnlineStore.buySomething({from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001)})
+```
+Notice the value field, where the javascript function call specifies how much ether to send (0.001). If you think of the transaction like an envelope, and the parameters you send to the function call are the contents of the letter you put inside, then adding a value is like putting cash inside the envelope — the letter and the money get delivered together to the recipient.
+> If a function is not marked payable and you try to send Ether to it as above, the function will reject your transaction.
+After you send Ether to a contract, it gets stored in the contract's Ethereum account, and it will be trapped there — unless you add a function to withdraw the Ether from the contract.
+### Withdraw
+You can write a function to withdraw Ether from the contract as follows:
+```
+contract GetPaid is Ownable {
+  function withdraw() external onlyOwner {
+    address payable _owner = address(uint160(owner()));
+    _owner.transfer(address(this).balance);
+  }
+}
+```
+It is important to note that you cannot transfer Ether to an address unless that address is of type address payable. But the _owner variable is of type uint160, meaning that we must explicitly cast it to address payable.
+
+Once you cast the address from uint160 to address payable, you can transfer Ether to that address using the transfer function, and address(this).balance will return the total balance stored on the contract. So if 100 users had paid 1 Ether to our contract, address(this).balance would equal 100 Ether.
+
+You can use transfer to send funds to any Ethereum address. For example, you could have a function that transfers Ether back to the msg.sender if they overpaid for an item:
+```
+uint itemFee = 0.001 ether;
+msg.sender.transfer(msg.value - itemFee);
+```
+### So how do we generate random numbers safely in Ethereum?
+You can read this [StackOverflow thread](https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract) for some ideas. One idea would be to use an oracle to access a random number function from outside of the Ethereum blockchain.
