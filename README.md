@@ -364,7 +364,7 @@ Now let's say we had an external contract that wanted to read the data in this c
 
 First we'd have to define an interface of the LuckyNumber contract:
 ```
-contract NumberInterface {
+interface NumberInterface {
   function getNum(address _myAddress) public view returns (uint);
 }
 ```
